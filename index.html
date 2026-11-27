@@ -166,8 +166,8 @@ img{max-width:100%;display:block}
     </div>
     <div style="display:flex;flex-direction:column">
       <sc-for list="{{ d3 }}" as="d" hint-placeholder-count="3">
-        <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px 32px;align-items:baseline;padding:28px 0;border-top:1px solid rgba(255,255,255,.16)">
-          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(44px,5.4vw,80px);letter-spacing:-.04em;line-height:.9;font-stretch:112%;color:#fff">{{ d.word }}</h3>
+        <div data-reveal="" style="display:flex;flex-direction:column;gap:14px;padding:28px 0;border-top:1px solid rgba(255,255,255,.16)">
+          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(40px,5.4vw,80px);letter-spacing:-.04em;line-height:.9;font-stretch:112%;color:#fff;overflow-wrap:anywhere">{{ d.word }}</h3>
           <p style="margin:0;font-size:16.5px;line-height:1.6;color:#C8CDE6;text-wrap:pretty">{{ d.body }}</p>
         </div>
       </sc-for>
