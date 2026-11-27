@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="description" content="CCS-D³ Bridge 2027 × QiLS — Predictive Molecular Science Forum. March 4–6, 2027, Center for Computational Sciences, University of Tsukuba, Japan.">
+<title>CCS-D³ Bridge 2027 × QiLS — Predictive Molecular Science Forum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Sans+JP:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8F4F2;--bg2:#FFF9F7;--ink:#0B0B0D;--ink2:#45434E;--line:rgba(11,11,13,.13);--accent:#6B35E8;--dk:#0B1434;--dk2:#111D46;--card:#0B1434;--cardline:rgba(11,20,52,0);--navbg:rgba(248,244,242,.88);--chip:#FFFFFF;--img:none;color-scheme:light}
+:root[data-theme=dark]{--bg:#0B1434;--bg2:#0E1A42;--ink:#FFFFFF;--ink2:#C5CAE4;--line:rgba(255,255,255,.14);--accent:#18DDF2;--dk:#060B22;--dk2:#0B1434;--card:#111D46;--cardline:rgba(255,255,255,.10);--navbg:rgba(11,20,52,.88);--chip:#111D46;--img:saturate(1.12) brightness(1.06);color-scheme:dark}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans','Noto Sans JP',system-ui,sans-serif;-webkit-font-smoothing:antialiased;transition:background-color .4s,color .4s;overflow-x:hidden}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid #176BFF;outline-offset:3px;border-radius:4px}
+img{max-width:100%;display:block}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none !important}}
+</style>
+</helmet>
+
+<a href="#main" style="position:absolute;left:-9999px;top:8px;z-index:100;background:#0B1434;color:#fff;padding:10px 16px;border-radius:6px" style-focus="left:8px">Skip to content</a>
+
+<header style="position:sticky;top:0;z-index:50;background:{{ navBg }};backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid {{ navBorder }};transition:background .3s,border-color .3s">
+  <nav aria-label="Primary" style="max-width:1400px;margin:0 auto;padding:{{ navPad }} clamp(20px,4vw,48px);display:flex;align-items:center;gap:24px;transition:padding .3s">
+    <a href="#home" style="display:flex;align-items:center;gap:10px;flex-shrink:0" aria-label="CCS-D³ Bridge 2027 × QiLS home">
+      <img src="assets/d3-ribbon-v5.png" alt="" style="width:36px;height:36px;object-fit:contain;filter:var(--img)">
+      <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.05;color:var(--ink)">CCS-D³ Bridge 2027<span style="display:block;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:.08em;color:var(--ink2)">× QiLS</span></span>
+    </a>
+    <ul style="display:{{ deskNav }};list-style:none;margin:0 0 0 auto;padding:0;gap:2px;align-items:center">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="9">
+        <li><a href="{{ n.href }}" style="display:block;padding:8px 11px;font-size:13.5px;font-weight:500;color:var(--ink);border-radius:999px;transition:background .2s" style-hover="background:var(--line)">{{ n.label }}</a></li>
+      </sc-for>
+    </ul>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:{{ toolsMargin }}">
+      <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:border-color .2s" style-hover="border-color:var(--accent)">
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"></path></svg>
+        </sc-if>
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"></path></svg>
+        </sc-if>
+      </button>
+      <button type="button" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpenStr }}" style="display:{{ burger }};width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+        <span style="width:18px;height:1.8px;background:var(--ink);display:block"></span>
+        <span style="width:18px;height:1.8px;background:var(--ink);display:block"></span>
+        <span style="width:12px;height:1.8px;background:var(--ink);display:block;margin-left:6px"></span>
+      </button>
+    </div>
+  </nav>
+  <sc-if value="{{ showMobileMenu }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid var(--line);background:var(--bg);padding:8px clamp(20px,4vw,48px) 24px;max-height:calc(100vh - 70px);overflow:auto">
+      <ul style="list-style:none;margin:0;padding:0;display:grid">
+        <sc-for list="{{ navItemsMobile }}" as="n" hint-placeholder-count="10">
+          <li style="border-bottom:1px solid var(--line)"><a href="{{ n.href }}" onClick="{{ closeMenu }}" style="display:flex;justify-content:space-between;align-items:center;min-height:52px;font-family:Archivo,sans-serif;font-weight:700;font-size:20px;color:var(--ink)">{{ n.label }}<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink2)">{{ n.num }}</span></a></li>
+        </sc-for>
+      </ul>
+    </div>
+  </sc-if>
+</header>
+
+<main id="main">
+
+<!-- 01 HERO -->
+<section id="home" data-screen-label="01 Hero" style="position:relative;overflow:hidden;background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(40px,7vw,96px) clamp(20px,4vw,48px) clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:clamp(32px,4vw,64px);align-items:center">
+    <div style="display:flex;flex-direction:column;gap:28px;position:relative;z-index:2">
+      <p style="margin:0;font-family:'Noto Sans JP','IBM Plex Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.14em;color:var(--ink)">「JAPAN – THAILAND」<span style="color:#F2299B;font-size:20px;vertical-align:-2px">+</span></p>
+      <h1 style="margin:0;font-family:Archivo,sans-serif;font-weight:850;font-size:clamp(48px,7.4vw,112px);line-height:.92;letter-spacing:-.035em;color:var(--ink);text-wrap:balance">Predictive<br>Molecular Science<br>Forum</h1>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <p style="margin:0;font-family:Archivo,sans-serif;font-weight:700;font-size:clamp(20px,2.2vw,28px);letter-spacing:-.01em;color:var(--ink)">CCS-<img src="assets/d3-ribbon-v5.png" alt="D³" style="height:1.3em;width:auto;display:inline-block;vertical-align:middle;margin:-.15em 0 -.1em .02em"> Bridge 2027 <span style="color:#F2299B">×</span> QiLS</p>
+        <p style="margin:0;display:flex;align-items:center;gap:14px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.2em;color:var(--ink)"><span style="width:44px;height:3px;border-radius:2px;background:linear-gradient(90deg,#F2299B,#6B35E8,#18DDF2);flex-shrink:0"></span>DATA · DYNAMICS · DESIGN</p>
+        <p style="margin:0;font-size:clamp(17px,1.5vw,20px);color:var(--ink2);max-width:34ch">Predict. Discuss. Discover What Comes Next.</p>
+      </div>
+      <dl style="margin:0;display:flex;flex-wrap:wrap;gap:12px 40px;padding-top:20px;border-top:1px solid var(--line)">
+        <div><dt style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink2);margin-bottom:4px">DATES</dt><dd style="margin:0;font-family:Archivo,sans-serif;font-weight:700;font-size:20px">March 4–6, 2027</dd></div>
+        <div><dt style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink2);margin-bottom:4px">VENUE</dt><dd style="margin:0;font-family:Archivo,sans-serif;font-weight:700;font-size:20px">CCS | University of Tsukuba, Japan</dd></div>
+      </dl>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <sc-if value="{{ regLive }}" hint-placeholder-val="{{ true }}"><a href="https://forms.gle/txqceo1xTGWPHUbp6" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.14em;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-2px);box-shadow:0 10px 30px rgba(242,41,155,.3);color:var(--bg)">REGISTER <span aria-hidden="true">→</span></a></sc-if><sc-if value="{{ regOff }}" hint-placeholder-val="{{ false }}"><span aria-disabled="true" style="display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:0 10px 0 28px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink2);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.14em;cursor:not-allowed;opacity:.75">REGISTER <span style="padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:10.5px;letter-spacing:.1em;color:var(--ink2)">CLOSED</span></span></sc-if>
+        <sc-if value="{{ posLive }}" hint-placeholder-val="{{ true }}"><a href="https://forms.gle/NNfYRr1a5zFwvhPSA" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;border:1.5px solid var(--ink);color:var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.14em;transition:background .2s" style-hover="background:var(--line);color:var(--ink)">SUBMIT POSTER <span aria-hidden="true">→</span></a></sc-if><sc-if value="{{ posOff }}" hint-placeholder-val="{{ false }}"><span aria-disabled="true" style="display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:0 10px 0 28px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink2);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.14em;cursor:not-allowed;opacity:.75">SUBMIT POSTER <span style="padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:10.5px;letter-spacing:.1em;color:var(--ink2)">CLOSED</span></span></sc-if>
+      </div>
+    </div>
+    <div style="position:relative;aspect-ratio:1800/1387;width:100%">
+      <div data-breathe="" aria-hidden="true" style="position:absolute;inset:12% 10%;border-radius:50%;background:radial-gradient(closest-side,rgba(107,53,232,.22),rgba(24,221,242,.10) 60%,transparent);filter:blur(30px)"></div>
+      <div data-float="hero" style="position:relative;width:100%;height:100%">
+        <img src="assets/hero-science-cluster-v2.png" alt="Scientific cluster: molecular spheres showing an energy landscape, a chemical structure, a molecular network and a processor, linked by molecular connectors and sakura blossoms around the D³ mark" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:var(--img)">
+        <div data-layers="" style="position:absolute;inset:0;pointer-events:none;filter:var(--img)">
+<div aria-hidden="true" data-bob="3" style="position:absolute;left:25.556%;top:38.572%;width:23.444%;aspect-ratio:1"><img src="assets/hero-layers/wave.png" alt="" style="position:absolute;inset:0;width:100%;height:100%"><img data-ripple="" src="assets/hero-layers/wave.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;-webkit-mask-image:radial-gradient(circle,#000 62%,transparent 80%);mask-image:radial-gradient(circle,#000 62%,transparent 80%)"></div>
+<img aria-hidden="true" alt="" data-bob="4" src="assets/hero-layers/chip.png" style="position:absolute;left:68.389%;top:11.68%;width:15.667%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="5" src="assets/hero-layers/net.png" style="position:absolute;left:68.889%;top:46.936%;width:17.889%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="4" src="assets/hero-layers/mol.png" style="position:absolute;left:22.333%;top:73.828%;width:18.889%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="6" src="assets/hero-layers/p1.png" style="position:absolute;left:15.5%;top:41.24%;width:6.222%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="4" src="assets/hero-layers/p2.png" style="position:absolute;left:7.167%;top:61.355%;width:14.333%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="5" src="assets/hero-layers/p3.png" style="position:absolute;left:32%;top:68.493%;width:4.111%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="3" src="assets/hero-layers/b1.png" style="position:absolute;left:53.333%;top:43.908%;width:7.778%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="4" src="assets/hero-layers/b2.png" style="position:absolute;left:80.778%;top:36.482%;width:6%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="6" src="assets/hero-layers/bl.png" style="position:absolute;left:7.667%;top:54.65%;width:4.111%;aspect-ratio:1">
+<img aria-hidden="true" alt="" data-bob="5" src="assets/hero-layers/p4.png" style="position:absolute;left:15.278%;top:89.618%;width:5.556%;aspect-ratio:1">
+<div aria-hidden="true" data-flower="0" style="position:absolute;left:16.867%;top:19.583%;width:17.97%;aspect-ratio:1;transform:rotate(30deg);transform-origin:49.28% 51.44%"><img data-petal="0" alt="" src="assets/hero-layers/petal0.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="1" alt="" src="assets/hero-layers/petal1.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="2" alt="" src="assets/hero-layers/petal2.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="3" alt="" src="assets/hero-layers/petal3.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="4" alt="" src="assets/hero-layers/petal4.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-stamen="" alt="" src="assets/hero-layers/stamens.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"></div>
+<div aria-hidden="true" data-flower="1" style="position:absolute;left:61.856%;top:19.744%;width:16.864%;aspect-ratio:1;transform:rotate(-4deg);transform-origin:49.28% 51.44%"><img data-petal="0" alt="" src="assets/hero-layers/petal0.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="1" alt="" src="assets/hero-layers/petal1.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="2" alt="" src="assets/hero-layers/petal2.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="3" alt="" src="assets/hero-layers/petal3.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="4" alt="" src="assets/hero-layers/petal4.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-stamen="" alt="" src="assets/hero-layers/stamens.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"></div>
+<div aria-hidden="true" data-flower="2" style="position:absolute;left:9.304%;top:55.387%;width:18.661%;aspect-ratio:1;transform:rotate(0deg);transform-origin:49.28% 51.44%"><img data-petal="0" alt="" src="assets/hero-layers/petal0.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="1" alt="" src="assets/hero-layers/petal1.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="2" alt="" src="assets/hero-layers/petal2.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="3" alt="" src="assets/hero-layers/petal3.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="4" alt="" src="assets/hero-layers/petal4.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-stamen="" alt="" src="assets/hero-layers/stamens.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"></div>
+<div aria-hidden="true" data-flower="3" style="position:absolute;left:46.5%;top:56.079%;width:15.897%;aspect-ratio:1;transform:rotate(34deg);transform-origin:49.28% 51.44%"><img data-petal="0" alt="" src="assets/hero-layers/petal0.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="1" alt="" src="assets/hero-layers/petal1.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="2" alt="" src="assets/hero-layers/petal2.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="3" alt="" src="assets/hero-layers/petal3.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-petal="4" alt="" src="assets/hero-layers/petal4.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"><img data-stamen="" alt="" src="assets/hero-layers/stamens.png" style="position:absolute;inset:0;width:100%;height:100%;transform-origin:49.28% 51.44%"></div>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:57%;top:4%;width:1.1%;aspect-ratio:1;background:#176BFF;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:62%;top:10%;width:0.8%;aspect-ratio:1;background:#18DDF2;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:66%;top:6%;width:0.9%;aspect-ratio:1;background:#176BFF;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:91%;top:30%;width:1%;aspect-ratio:1;background:#176BFF;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:94%;top:44%;width:0.8%;aspect-ratio:1;background:#6B35E8;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:88%;top:58%;width:0.9%;aspect-ratio:1;background:#18DDF2;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:6%;top:83%;width:1%;aspect-ratio:1;background:#6B35E8;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:12%;top:90%;width:0.8%;aspect-ratio:1;background:#176BFF;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:3%;top:92%;width:0.7%;aspect-ratio:1;background:#176BFF;opacity:.85"></span>
+<span aria-hidden="true" data-pixel="" style="position:absolute;left:52%;top:2%;width:0.7%;aspect-ratio:1;background:#6B35E8;opacity:.85"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" style="max-width:1400px;margin:0 auto;overflow:hidden"><div data-drift="wave" style="width:108%;margin-left:-4%"><img src="assets/wave-divider-seigaiha.png" alt="" style="width:100%;height:auto;filter:var(--img)"></div></div>
+</section>
+
+<!-- 02 ABOUT -->
+<section id="about" data-screen-label="02 About" style="background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,140px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(32px,6vw,96px)">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">01 — FORUM</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(28px,3vw,40px);letter-spacing:-.02em;line-height:1">ABOUT THE FORUM</h2>
+    </div>
+    <div style="grid-column:span 2;display:flex;flex-direction:column;gap:48px;min-width:0">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:20px;max-width:62ch">
+        <p style="margin:0;font-size:clamp(19px,1.7vw,23px);line-height:1.5;color:var(--ink);text-wrap:pretty">CCS-D³ Bridge 2027 × QiLS brings together researchers and students across computational science, data science, molecular science and life science.</p>
+        <p style="margin:0;font-size:17px;line-height:1.65;color:var(--ink2)">The forum is designed around active scientific discussion rather than passive presentation.</p>
+        <p style="margin:0;font-size:17px;line-height:1.65;color:var(--ink2)">Participants are encouraged to ask:</p>
+      </div>
+      <ol data-reveal="" style="list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--line)">
+        <sc-for list="{{ questions }}" as="q" hint-placeholder-count="5">
+          <li style="display:grid;grid-template-columns:56px 1fr;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">{{ q.n }}</span>
+            <span style="font-family:Archivo,sans-serif;font-weight:600;font-size:clamp(20px,2vw,26px);letter-spacing:-.01em">{{ q.text }}</span>
+          </li>
+        </sc-for>
+      </ol>
+      <p data-reveal="" style="margin:16px 0 0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(28px,3.6vw,52px);line-height:1.06;letter-spacing:-.03em;text-wrap:balance">Where data, molecular dynamics, AI, quantum science and biology meet to <span style="background:linear-gradient(90deg,#F2299B,#6B35E8 55%,#176BFF);-webkit-background-clip:text;background-clip:text;color:transparent">design the next research question.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 D3 -->
+<section id="d3" data-screen-label="03 D3" style="position:relative;overflow:hidden;background:var(--dk);color:#fff">
+  <div data-breathe="" aria-hidden="true" style="position:absolute;width:70vw;height:70vw;max-width:1100px;max-height:1100px;left:-15vw;top:50%;margin-top:-35vw;border-radius:50%;background:radial-gradient(closest-side,rgba(242,41,155,.28),rgba(107,53,232,.18) 50%,transparent 72%)"></div>
+  <div data-breathe="slow" aria-hidden="true" style="position:absolute;width:50vw;height:50vw;right:-12vw;bottom:-20vw;border-radius:50%;background:radial-gradient(closest-side,rgba(24,221,242,.18),transparent 70%)"></div>
+  <div style="position:relative;max-width:1400px;margin:0 auto;padding:clamp(64px,10vw,150px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:clamp(40px,6vw,96px);align-items:center">
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:#18DDF2">02 — D³</p>
+      <div data-float="slow" style="width:min(100%,520px)">
+        <img src="assets/d3-ribbon-v5.png" alt="The D³ ribbon mark in a magenta, violet and cyan gradient" style="width:100%;height:auto;filter:saturate(1.1) brightness(1.05)">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ d3 }}" as="d" hint-placeholder-count="3">
+        <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px 32px;align-items:baseline;padding:28px 0;border-top:1px solid rgba(255,255,255,.16)">
+          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(44px,5.4vw,80px);letter-spacing:-.04em;line-height:.9;font-stretch:112%;color:#fff">{{ d.word }}</h3>
+          <p style="margin:0;font-size:16.5px;line-height:1.6;color:#C8CDE6;text-wrap:pretty">{{ d.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 04 THEMES -->
+<section id="themes" data-screen-label="04 Themes" style="background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:48px">
+    <div data-reveal="" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">03 — THEMES</p>
+        <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(36px,5vw,72px);letter-spacing:-.035em;line-height:.95">Scientific Themes</h2>
+      </div>
+      <p style="margin:0;max-width:40ch;font-size:16px;line-height:1.6;color:var(--ink2)">Four fields, one forum. Each theme is a meeting point for methods, systems and questions.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,max(360px,calc(50% - 10px))),1fr));gap:20px">
+      <sc-for list="{{ themes }}" as="t" hint-placeholder-count="4">
+        <article style="position:relative;display:flex;flex-direction:column;gap:20px;padding:28px 26px 30px;border-radius:20px;background:var(--card);border:1px solid var(--cardline);color:#fff;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s" style-hover="transform:translateY(-6px);box-shadow:0 24px 60px -20px rgba(107,53,232,.55),0 0 0 1px rgba(24,221,242,.35)">
+          <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC"><span>THEME {{ t.n }}</span><span>{{ t.short }}</span></div>
+          <div style="width:72%;aspect-ratio:1;margin:0 auto"><img src="{{ t.img }}" alt="{{ t.alt }}" style="width:100%;height:100%;object-fit:contain"></div>
+          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:24px;letter-spacing:-.015em;line-height:1.05">{{ t.title }}</h3>
+          <ul style="list-style:none;margin:0;padding:16px 0 0;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ t.tags }}" as="tag" hint-placeholder-count="6">
+              <li style="display:flex;align-items:center;gap:10px;font-size:14.5px;color:#DCE0F2"><span style="width:5px;height:5px;background:#18DDF2;flex-shrink:0"></span>{{ tag }}</li>
+            </sc-for>
+          </ul>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CCS x QiLS -->
+<section id="network" data-screen-label="05 CCS x QiLS" style="position:relative;overflow:hidden;background:var(--dk);color:#fff">
+  <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(60% 50% at 20% 30%,rgba(23,107,255,.16),transparent 70%),radial-gradient(50% 50% at 85% 75%,rgba(242,41,155,.14),transparent 70%)"></div>
+  <div style="position:relative;max-width:1400px;margin:0 auto;padding:clamp(64px,10vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:clamp(32px,5vw,56px)">
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px;align-items:end">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:#18DDF2">04 — NETWORK</p>
+        <h2 aria-label="CCS-D³ × QiLS" style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(48px,7.4vw,120px);letter-spacing:-.045em;line-height:.88;display:flex;flex-wrap:wrap;align-items:center;gap:0 .14em"><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:.1em">CCS<span style="display:inline-block;width:.42em;height:.13em;background:#fff;margin:0 .02em"></span><img src="assets/d3-ribbon-v5.png" alt="" style="height:1.3em;width:auto;margin-left:.04em"></span><span aria-hidden="true" style="color:#F2299B;font-weight:700">×</span><span aria-hidden="true">QiLS</span></h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;font-size:16.5px;line-height:1.65;color:#C8CDE6;max-width:58ch">
+        <p style="margin:0;color:#fff">CCS-D³ Bridge 2027 × QiLS connects computational science with molecular and life science research across the University of Tsukuba research community.</p>
+        <p style="margin:0">The goal is to create interactions between methods, scientific questions and experimental perspectives that would not normally meet in a single disciplinary meeting.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:6px;padding:20px 0;border-top:2px solid #176BFF">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC">COMMUNITY A</span>
+        <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:22px">CCS</span>
+        <span style="font-size:14px;color:#C8CDE6;line-height:1.45">Center for Computational Sciences</span>
+      </div>
+      <div style="grid-column:span 3;min-width:0;position:relative">
+        <div data-float="slow"><img src="assets/ccs-qils-network.png" alt="Research network: gradient spheres connected by glowing links, with flowing data lines and pixel clusters" style="width:100%;height:auto;filter:saturate(1.1) brightness(1.05)"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding:20px 0;border-top:2px solid #F2299B">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC">COMMUNITY B</span>
+        <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:22px">QiLS</span>
+        <span style="font-size:14px;color:#C8CDE6;line-height:1.45">Center for Quantum and Information Life Sciences</span>
+      </div>
+    </div>
+    <ul aria-label="Connected areas" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+      <sc-for list="{{ areas }}" as="a" hint-placeholder-count="6">
+        <li style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:.14em;transition:border-color .25s,box-shadow .25s" style-hover="border-color:#18DDF2;box-shadow:0 0 24px rgba(24,221,242,.25)"><span style="width:8px;height:8px;border-radius:50%;background:{{ a.color }}"></span>{{ a.label }}</li>
+      </sc-for>
+    </ul>
+  </div>
+</section>
+
+<!-- 06 PROGRAM -->
+<section id="program" data-screen-label="06 Program" style="background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:48px">
+    <div data-reveal="" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">05 — PROGRAM</p>
+        <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(36px,5vw,72px);letter-spacing:-.035em;line-height:.95">THREE DAYS.<br>ONE CONVERSATION.</h2>
+      </div>
+      <p style="margin:0;display:flex;align-items:center;gap:12px;padding:12px 18px;border:1px dashed var(--line);border-radius:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:var(--ink2)">Detailed scientific program: <strong style="color:var(--ink)">TBA</strong></p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px">
+      <sc-for list="{{ days }}" as="d" hint-placeholder-count="3">
+        <article data-reveal="" style="display:flex;flex-direction:column;gap:28px;padding:clamp(28px,3vw,44px);border-radius:20px;background:var(--bg2);border:1px solid var(--line)">
+          <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.2em;color:var(--accent)">{{ d.day }}</span>
+              <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(40px,4.4vw,64px);letter-spacing:-.04em;line-height:.9">{{ d.date }}</h3>
+            </div>
+            <span style="padding:8px 14px;border-radius:999px;background:var(--card);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;letter-spacing:.16em">{{ d.title }}</span>
+          </header>
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <sc-for list="{{ d.blocks }}" as="b" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column">
+                <h4 style="margin:0 0 4px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)">{{ b.label }}</h4>
+                <ul style="list-style:none;margin:0;padding:0;display:grid">
+                  <sc-for list="{{ b.items }}" as="it" hint-placeholder-count="3">
+                    <li style="display:flex;flex-direction:column;gap:8px;padding:11px 0;border-bottom:1px solid var(--line);font-size:16px;font-weight:500;line-height:1.35">
+                      <span>{{ it.label }}</span>
+                      <sc-if value="{{ it.hasSub }}" hint-placeholder-val="{{ false }}">
+                        <span style="display:flex;flex-wrap:wrap;gap:8px">
+                          <sc-for list="{{ it.sub }}" as="s" hint-placeholder-count="2">
+                            <span style="display:inline-flex;align-items:baseline;gap:8px;padding:6px 12px;border-radius:999px;background:var(--card);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;letter-spacing:.12em"><span style="font-family:Archivo,sans-serif;font-weight:900;font-size:15px;letter-spacing:-.02em;color:{{ s.color }}">{{ s.n }}</span>{{ s.label }}</span>
+                          </sc-for>
+                        </span>
+                      </sc-if>
+                    </li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-for>
+          </div>
+          <blockquote style="margin:auto 0 0;padding:22px 0 0 22px;border-left:3px solid #F2299B;font-family:Archivo,sans-serif;font-weight:700;font-size:clamp(20px,1.9vw,25px);line-height:1.25;letter-spacing:-.01em;text-wrap:balance">{{ d.question }}</blockquote>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 07 FORMATS -->
+<section id="formats" data-screen-label="07 Formats" style="background:var(--bg2);border-top:1px solid var(--line)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,8vw,120px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:40px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">06 — FORMATS</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(32px,4vw,56px);letter-spacing:-.03em;line-height:.95">Presentation Formats</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px">
+      <sc-for list="{{ formats }}" as="f" hint-placeholder-count="4">
+        <article data-reveal="" style="display:flex;flex-direction:column;gap:18px;padding:28px 26px;border-radius:20px;background:{{ f.bg }};color:{{ f.fg }};border:1px solid var(--line);border-top:4px solid {{ f.color }};min-height:340px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;opacity:.8">{{ f.n }}</span>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+            <sc-if value="{{ f.numImg }}" hint-placeholder-val="{{ false }}"><img src="assets/three.png" alt="3" style="height:clamp(48px,4.6vw,68px);width:auto;align-self:flex-end"></sc-if><sc-if value="{{ f.numText }}" hint-placeholder-val="{{ true }}"><span style="font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(56px,5.4vw,80px);letter-spacing:-.05em;line-height:.85">{{ f.num }}</span></sc-if>
+            <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.08em">{{ f.unit }}</span>
+          </div>
+          <h3 style="margin:auto 0 0;font-family:Archivo,sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em;display:flex;align-items:center;gap:.25em"><sc-if value="{{ f.numImg }}" hint-placeholder-val="{{ false }}"><img src="assets/d3-ribbon-v5.png" alt="D³" style="height:1.5em;width:auto;display:inline-block;vertical-align:middle"><span>Flash</span></sc-if><sc-if value="{{ f.numText }}" hint-placeholder-val="{{ true }}">{{ f.title }}</sc-if></h3>
+          <p style="margin:0;font-size:15px;line-height:1.55;opacity:.86;text-wrap:pretty">{{ f.body }}</p>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 08 7+11 -->
+<section id="pitch" data-screen-label="08 7+11" style="position:relative;overflow:hidden;background:var(--dk);color:#fff">
+  <div aria-hidden="true" style="position:absolute;left:-10%;right:-10%;top:8%;opacity:.5;pointer-events:none">
+    <div data-drift=""><img data-gif="assets/motion-711-data-flow.gif" src="assets/pixel-wave-ribbon.png" alt="" style="width:100%;height:auto"></div>
+  </div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,20,52,0) 0%,var(--dk) 72%)"></div>
+  <div style="position:relative;max-width:1400px;margin:0 auto;padding:clamp(64px,10vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:clamp(40px,6vw,72px)">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em">
+      <span style="color:#18DDF2">07 — SIGNATURE FORMAT</span><span style="color:#9EA6CC">7+11 RESEARCH PITCH</span>
+    </div>
+    <div data-reveal="" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,3vw,48px);align-items:center">
+      <h2 aria-label="7 plus 11" style="margin:0;position:relative;width:clamp(150px,22vw,330px);aspect-ratio:5/6;border-radius:clamp(18px,2vw,28px);background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1.5px solid rgba(255,255,255,.22);box-shadow:0 0 60px -10px rgba(242,41,155,.35),inset 0 0 40px rgba(107,53,232,.15);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Archivo,sans-serif;font-weight:900;line-height:.8">
+        <span aria-hidden="true" style="font-size:clamp(110px,16vw,250px);letter-spacing:-.06em;background:linear-gradient(170deg,#F26AA2,#F2299B 55%,#6B35E8);-webkit-background-clip:text;background-clip:text;color:transparent">7</span>
+        <span aria-hidden="true" style="font-size:clamp(40px,5.6vw,88px);letter-spacing:-.04em;margin-top:.05em;background:linear-gradient(90deg,#6B35E8,#176BFF 45%,#18DDF2);-webkit-background-clip:text;background-clip:text;color:transparent">+11</span>
+      </h2>
+      <div style="display:flex;flex-direction:column;gap:clamp(14px,2vw,28px);min-width:0">
+        <p style="margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.1em .35em;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(28px,4.6vw,76px);letter-spacing:-.03em;line-height:1;color:#FF4F8B"><span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.3em;letter-spacing:.12em;color:#F26AA2;align-self:center">7 MIN</span>: PRESENT THE QUESTION</p>
+        <p style="margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.1em .35em;font-family:Archivo,sans-serif;font-weight:500;font-size:clamp(24px,3.6vw,60px);letter-spacing:-.02em;line-height:1;color:#18DDF2"><span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.36em;letter-spacing:.12em;align-self:center">11 MIN</span>: CHALLENGE IT TOGETHER</p>
+      </div>
+    </div>
+    <ol aria-label="Pitch flow" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+      <sc-for list="{{ flow711 }}" as="s" hint-placeholder-count="4">
+        <li style="display:flex;align-items:center;gap:20px"><span style="font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(24px,3vw,40px);letter-spacing:-.02em">{{ s.label }}</span><span aria-hidden="true" style="display:{{ s.arrow }};font-size:clamp(20px,2.4vw,32px);color:#18DDF2">→</span></li>
+      </sc-for>
+    </ol>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:32px;align-items:center;padding-top:40px;border-top:1px solid rgba(255,255,255,.16)">
+      <p style="margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.6;color:#DCE0F2;max-width:56ch;text-wrap:pretty">The goal is not only to present results, but to identify uncertainty, create new scientific questions, and define the next calculation, experiment or collaboration.</p>
+      <div style="display:flex;align-items:center;gap:18px;justify-self:start;padding:18px 26px 18px 18px;border-radius:999px;background:linear-gradient(90deg,rgba(242,41,155,.18),rgba(107,53,232,.18),rgba(24,221,242,.12));border:1px solid rgba(255,255,255,.2)">
+        <span style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#F2299B,#6B35E8,#18DDF2);display:grid;place-items:center;font-family:Archivo,sans-serif;font-weight:900;font-size:15px">★</span>
+        <span style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:#C8CDE6">AWARD</span><span style="font-family:Archivo,sans-serif;font-weight:800;font-size:19px">7+11 Research Pitch Award</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 POSTER -->
+<section id="poster" data-screen-label="09 Poster" style="background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:clamp(40px,5vw,64px)">
+    <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">08 — POSTER</p>
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:clamp(16px,2vw,28px)">
+      <div style="display:flex;align-items:flex-start;gap:clamp(12px,1.6vw,24px);flex-wrap:wrap">
+        <img src="assets/d3-ribbon-v5.png" alt="D³" style="height:clamp(150px,20vw,300px);width:auto;flex-shrink:0">
+        <div style="display:flex;flex-direction:column;gap:clamp(6px,.8vw,12px);padding-top:clamp(10px,1.4vw,22px);min-width:0;flex:1 1 260px;max-width:620px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:clamp(14px,1.3vw,20px);letter-spacing:.24em">MIN</span>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(26px,3vw,46px);letter-spacing:-.025em;line-height:1;text-wrap:balance">EVERY POSTER GETS THE STAGE.</p>
+        </div>
+      </div>
+      <h2 aria-label="D³ FLASH — 3 minutes" style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(84px,17vw,260px);letter-spacing:-.055em;line-height:.8">FLASH</h2>
+    </div>
+    <ol aria-label="D3 Flash flow" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));border-top:1px solid var(--ink)">
+      <sc-for list="{{ flashFlow }}" as="s" hint-placeholder-count="3">
+        <li style="display:flex;flex-direction:column;gap:10px;padding:22px 24px 22px 0"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">{{ s.n }}</span><span style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em">{{ s.label }}</span></li>
+      </sc-for>
+    </ol>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+        <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;letter-spacing:.18em;color:var(--ink2)">OPEN TO</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+          <sc-for list="{{ openTo }}" as="o" hint-placeholder-count="5">
+            <li style="padding:10px 0;border-bottom:1px solid var(--line);font-size:17px;font-weight:500">{{ o }}</li>
+          </sc-for>
+        </ul>
+      </div>
+      <div data-reveal="" style="grid-column:span 2;display:flex;flex-direction:column;gap:16px;min-width:0">
+        <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;letter-spacing:.18em;color:var(--ink2)">POSSIBLE TOPICS</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ topics }}" as="t" hint-placeholder-count="13">
+            <li style="padding:9px 16px;border-radius:999px;background:var(--chip);border:1px solid var(--line);font-size:14.5px;font-weight:500">{{ t }}</li>
+          </sc-for>
+        </ul>
+        <dl style="margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+          <div style="padding:18px 20px;border-radius:14px;border:1px dashed var(--line)"><dt style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:var(--ink2)">POSTER FORMAT</dt><dd style="margin:6px 0 0;font-family:Archivo,sans-serif;font-weight:800;font-size:24px">TBA</dd></div>
+          <div style="padding:18px 20px;border-radius:14px;border:1px dashed var(--line)"><dt style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:var(--ink2)">SUBMISSION DEADLINE</dt><dd style="margin:6px 0 0;font-family:Archivo,sans-serif;font-weight:800;font-size:24px">15 Feb 2027</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 SPEAKERS -->
+<section id="speakers" data-screen-label="10 Speakers" style="background:var(--bg2);border-top:1px solid var(--line)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:56px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">09 — PEOPLE</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(32px,4.6vw,64px);letter-spacing:-.035em;line-height:.95;text-wrap:balance">SPEAKERS &amp; RESEARCH MENTORS</h2>
+    </div>
+    <sc-for list="{{ speakerGroups }}" as="g" hint-placeholder-count="2">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--line)">
+          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:24px;letter-spacing:-.015em">{{ g.title }}</h3>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.12em;color:var(--ink2)">TBA</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:20px">
+          <sc-for list="{{ g.people }}" as="p" hint-placeholder-count="4">
+            <article style="display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--bg);border:1px solid var(--line)">
+              <div style="position:relative;aspect-ratio:4/5;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 12px)">
+                <span style="position:absolute;left:16px;bottom:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--ink2)">SPEAKER PHOTO</span>
+                <div tabindex="0" style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:18px;background:linear-gradient(180deg,rgba(11,20,52,0),rgba(11,20,52,.92));color:#fff;opacity:0;transition:opacity .3s" style-hover="opacity:1" style-focus="opacity:1">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#18DDF2">TALK TITLE</span>
+                  <span style="font-family:Archivo,sans-serif;font-weight:700;font-size:17px;line-height:1.2">{{ p.talk }}</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px;padding:18px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--accent)">{{ p.role }}</span>
+                <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:19px">{{ p.name }}</span>
+                <span style="font-size:14px;color:var(--ink2)">{{ p.institution }} · {{ p.country }}</span>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding:22px 26px;border-radius:18px;border:1px dashed var(--line)">
+      <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:22px">7+11 Participants</h3>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.12em;color:var(--ink2)">TBA</span>
+    </div>
+  </div>
+</section>
+
+<!-- 11 WHO CAN JOIN -->
+<section id="join" data-screen-label="11 Who can join" style="background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,8vw,120px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,80px)">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:20px">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">10 — PARTICIPATION</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(36px,4.6vw,64px);letter-spacing:-.035em;line-height:.95">WHO CAN JOIN?</h2>
+      <p style="margin:0;font-size:18px;line-height:1.55;max-width:36ch">External participation is welcome. The forum starts from Japan–Thailand collaboration and is open to broader international participation.</p>
+    </div>
+    <ul data-reveal="" style="grid-column:span 2;list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;min-width:0">
+      <sc-for list="{{ joiners }}" as="j" hint-placeholder-count="10">
+        <li style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 22px;border-radius:999px;background:var(--chip);border:1px solid var(--line);font-size:16px;font-weight:500;transition:border-color .2s,transform .2s" style-hover="border-color:var(--accent);transform:translateY(-2px)"><span style="width:7px;height:7px;background:{{ j.color }}"></span>{{ j.label }}</li>
+      </sc-for>
+    </ul>
+  </div>
+</section>
+
+<!-- 12 REGISTRATION -->
+<section id="registration" data-screen-label="12 Registration" style="position:relative;overflow:hidden;background:var(--dk);color:#fff">
+  <div data-breathe="slow" aria-hidden="true" style="position:absolute;width:60vw;height:60vw;left:50%;top:-30vw;margin-left:-30vw;border-radius:50%;background:radial-gradient(closest-side,rgba(107,53,232,.3),rgba(242,41,155,.12) 55%,transparent 75%)"></div>
+  <div style="position:relative;max-width:1400px;margin:0 auto;padding:clamp(64px,10vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:48px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:#18DDF2">11 — REGISTRATION</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(34px,5.4vw,80px);letter-spacing:-.04em;line-height:.95;text-wrap:balance" aria-label="JOIN CCS-D³ BRIDGE 2027 × QiLS">JOIN CCS-<img src="assets/d3-ribbon-v5.png" alt="D³" style="height:1.15em;width:auto;display:inline-block;vertical-align:middle;margin:-.12em 0 -.05em .02em"> BRIDGE 2027 × QiLS</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+      <sc-for list="{{ regCards }}" as="r" hint-placeholder-count="3">
+        <article data-reveal="" style="display:flex;flex-direction:column;gap:18px;padding:30px 28px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);transition:border-color .3s,box-shadow .3s" style-hover="border-color:rgba(24,221,242,.6);box-shadow:0 0 40px -10px rgba(24,221,242,.4)">
+          <span style="width:36px;height:4px;border-radius:2px;background:{{ r.color }}"></span>
+          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(22px,2vw,26px);letter-spacing:-.01em;line-height:1.05">{{ r.title }}</h3>
+          <p style="margin:0;font-size:15.5px;line-height:1.55;color:#C8CDE6;flex:1">{{ r.body }}</p>
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:18px 0 6px;border-top:1px solid rgba(255,255,255,.14)">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC">DEADLINE</span>
+              <span style="display:flex;align-items:baseline;gap:10px"><span style="font-family:Archivo,sans-serif;font-weight:900;font-size:56px;letter-spacing:-.05em;line-height:.8">{{ r.day }}</span><span style="display:flex;flex-direction:column;font-family:Archivo,sans-serif;font-weight:800;font-size:18px;line-height:1.05">{{ r.month }}<span style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;color:#C8CDE6;letter-spacing:.08em">{{ r.year }}</span></span></span>
+            </div>
+            <strong style="padding:6px 12px;border-radius:999px;border:1px solid {{ r.statusColor }};color:{{ r.statusColor }};font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em">{{ r.status }}</strong>
+          </div>
+          <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:999px;background:#fff;color:#0B1434;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13.5px;letter-spacing:.14em;transition:transform .2s" style-hover="transform:translateY(-2px);color:#0B1434">{{ r.cta }} →</a>
+          </sc-if>
+          <sc-if value="{{ r.closed }}" hint-placeholder-val="{{ true }}">
+            <span aria-disabled="true" style="display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:#C8CDE6;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13.5px;letter-spacing:.14em;cursor:not-allowed">CLOSED</span>
+          </sc-if>
+        </article>
+      </sc-for>
+    </div>
+    <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));border-top:1px solid rgba(255,255,255,.16)">
+      <sc-for list="{{ statuses }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;justify-content:space-between;gap:12px;padding:18px 20px 18px 0;border-bottom:1px solid rgba(255,255,255,.16)"><dt style="font-size:15px;color:#C8CDE6">{{ s.label }}</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;color:{{ s.color }}">{{ s.value }}</dd></div>
+      </sc-for>
+    </dl>
+  </div>
+</section>
+
+<!-- 13 SAKURA SCIENCE -->
+<section id="sakura" data-screen-label="13 Sakura Science" style="background:var(--bg)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,8vw,120px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(32px,5vw,72px);align-items:center">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:18px">
+      <span style="width:28px;height:3px;border-radius:2px;background:#F26AA2"></span>
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:360px"><div style="border-radius:16px;background:#FFFFFF;border:1px solid var(--line);padding:22px 26px"><img src="assets/logo-sakura-science.png" alt="Sakura Science Exchange Program logo" style="width:100%;height:auto"></div><div style="display:flex;align-items:center;justify-content:center;height:110px;border-radius:16px;background:#FFFFFF;border:1px solid var(--line);padding:22px 26px"><img src="assets/logo-qils.png" alt="QiLS logo" style="height:100%;width:auto;max-width:100%;object-fit:contain"></div></div>
+    </div>
+    <div data-reveal="" style="grid-column:span 2;display:flex;flex-direction:column;gap:18px;max-width:68ch;min-width:0">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">12 — PARTICIPANT STREAM</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(26px,2.8vw,38px);letter-spacing:-.02em;line-height:1">JST SAKURA SCIENCE <span style="color:#F2299B">×</span> QiLS</h2>
+      <p style="margin:0;font-size:17px;line-height:1.65">CCS-D³ Bridge 2027 brings together two major participant communities: researchers from the Center for Quantum and Information Life Sciences (QiLS), University of Tsukuba, and young researchers participating in the JST Sakura Science Program “Japan–Thailand Advanced Molecular Simulation Training for Predictive Research Design.”</p>
+      <p style="margin:0;font-size:17px;line-height:1.65;color:var(--ink2)">Approximately twelve young researchers from Thailand will join QiLS researchers, University of Tsukuba students, research mentors, and external participants in a shared scientific forum focused on discussion, collaboration, and the development of new research questions, calculations, and experiments.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 ACCESS -->
+<section id="access" data-screen-label="14 Access" style="background:var(--bg);border-top:1px solid var(--line)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(56px,8vw,120px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:40px">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent)">13 — ACCESS</p>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(32px,4.6vw,64px);letter-spacing:-.035em;line-height:.95">VENUE &amp; ACCESS</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px">
+      <article data-reveal="" style="display:flex;flex-direction:column;gap:24px;padding:clamp(28px,3vw,40px);border-radius:20px;background:var(--card);border:1px solid var(--cardline);color:#fff">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#18DDF2">VENUE</span>
+        <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(24px,2.4vw,32px);letter-spacing:-.02em;line-height:1.05">Center for Computational Sciences (CCS)<span style="display:block;font-weight:500;color:#C8CDE6;margin-top:6px;font-size:.7em">University of Tsukuba</span></h3>
+        <address style="font-style:normal;font-size:17px;line-height:1.6;padding-top:20px;border-top:1px solid rgba(255,255,255,.14)">1-1-1 Tennodai<br>Tsukuba, Ibaraki<br>Japan</address>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Center+for+Computational+Sciences+University+of+Tsukuba" target="_blank" rel="noopener" style="margin-top:auto;display:inline-flex;align-self:flex-start;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.12em;color:#fff" style-hover="border-color:#18DDF2;color:#fff">OPEN IN MAPS ↗</a>
+      </article>
+      <div data-reveal="" style="grid-column:span 2;min-width:0;min-height:380px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 12px)">
+        <iframe title="Map: Center for Computational Sciences, University of Tsukuba" src="https://maps.google.com/maps?q=Center%20for%20Computational%20Sciences%2C%20University%20of%20Tsukuba&amp;z=15&amp;output=embed" loading="lazy" style="width:100%;height:100%;min-height:380px;border:0;display:block"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 ORGANIZERS -->
+<section id="organizers" data-screen-label="15 Organizers" style="background:var(--dk);color:#fff">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(64px,9vw,130px) clamp(20px,4vw,48px) clamp(40px,5vw,72px);display:flex;flex-direction:column;gap:48px">
+    <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:#18DDF2">14 — ORGANIZERS</p>
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;justify-content:center;height:120px;padding:18px 26px;margin-bottom:8px;border-radius:16px;background:#FFFFFF;align-self:flex-start"><img src="assets/logo-ccs.png" alt="CCS logo" style="height:100%;width:auto;max-width:100%;object-fit:contain"></div>
+        <span style="font-size:16px;line-height:1.5;color:#C8CDE6">Center for Computational Sciences (CCS)<br>University of Tsukuba</span>
+      </div>
+      <span aria-hidden="true" style="font-family:Archivo,sans-serif;font-weight:300;font-size:clamp(40px,4vw,64px);color:#F2299B;justify-self:center">×</span>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;justify-content:center;height:120px;padding:18px 26px;margin-bottom:8px;border-radius:16px;background:#FFFFFF;align-self:flex-start"><img src="assets/logo-qils.png" alt="QiLS logo" style="height:100%;width:auto;max-width:100%;object-fit:contain"></div>
+        <span style="font-size:16px;line-height:1.5;color:#C8CDE6">Center for Quantum and Information Life Sciences (QiLS)<br>University of Tsukuba</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;padding-top:32px;border-top:1px solid rgba(255,255,255,.16)">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC">CHAIR</span>
+        <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:22px">Kowit Hengphasatporn</span>
+        <span style="font-size:15px;line-height:1.5;color:#C8CDE6">Center for Computational Sciences<br>University of Tsukuba</span>
+      </div>
+      <div id="contact" style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC">CONTACT</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:clamp(16px,1.6vw,20px);color:#fff;word-break:break-all">kowith[at]ccs.tsukuba.ac.jp</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9EA6CC">PARTICIPATING PROGRAM</span>
+        <div style="display:flex;align-items:center;justify-content:center;height:84px;padding:12px 18px;margin-bottom:8px;border-radius:16px;background:#FFFFFF;align-self:flex-start"><img src="assets/logo-sakura-science.png" alt="JST Sakura Science Exchange Program logo" style="height:100%;width:auto;max-width:100%;object-fit:contain"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 16 FOOTER -->
+<footer data-screen-label="16 Footer" style="position:relative;overflow:hidden;background:var(--dk);color:#fff">
+  <div aria-hidden="true" style="position:relative;margin:0 -6%;height:clamp(140px,20vw,320px)">
+    <div data-drift="wave" style="position:absolute;inset:0"><img src="assets/wave-divider-footer.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;filter:saturate(1.08)"></div>
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(32px,4vw,56px) clamp(20px,4vw,48px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:32px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span aria-label="CCS-D³ Bridge 2027 × QiLS" style="font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(28px,3.4vw,48px);letter-spacing:-.035em;line-height:.95">CCS-<img src="assets/d3-ribbon-v5.png" alt="D³" style="height:1.15em;width:auto;display:inline-block;vertical-align:middle;margin:-.12em 0 -.05em .02em"> Bridge 2027 × QiLS</span>
+      <span style="font-size:17px;color:#C8CDE6">Predict. Discuss. Discover What Comes Next.</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;letter-spacing:.08em;justify-self:end;text-align:right">
+      <span>March 4–6, 2027</span>
+      <span style="color:#C8CDE6">University of Tsukuba, Japan</span>
+      <a href="#contact" style="color:#18DDF2;margin-top:8px">Contact →</a>
+    </div>
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:18px clamp(20px,4vw,48px) 28px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:#9EA6CC">
+    <span>DATA · DYNAMICS · DESIGN</span>
+    <a href="#home" style="color:#9EA6CC">BACK TO TOP ↑</a>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;animatedAssets&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;registerOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Submissions&quot;},&quot;abstractOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Submissions&quot;},&quot;posterOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Submissions&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'light', scrolled: false, menuOpen: false, narrow: false };
+
+  componentDidMount() {
+    let t = null;
+    try { t = localStorage.getItem('ccsd3-theme'); } catch (e) {}
+    this.setTheme(t || this.props.defaultTheme || 'light', false);
+    this.mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.reduced = this.mq.matches;
+    this.onScroll = () => { const s = window.scrollY > 24; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+    this.onResize = () => { const n = window.innerWidth < 1180; if (n !== this.state.narrow) this.setState({ narrow: n, menuOpen: n && this.state.menuOpen }); };
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state.menuOpen) this.setState({ menuOpen: false }); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKey);
+    this.onScroll(); this.onResize();
+    this.swapAssets();
+    setTimeout(() => this.setupMotion(), 60);
+  }
+  componentDidUpdate(pp) {
+    if (pp.animatedAssets !== this.props.animatedAssets) this.swapAssets();
+    if (pp.defaultTheme !== this.props.defaultTheme && this.props.defaultTheme) this.setTheme(this.props.defaultTheme, false);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    (this.anims || []).forEach(a => a.cancel());
+    if (this.io) this.io.disconnect();
+    const r = document.getElementById('ccs-ripple'); if (r) r.remove();
+  }
+  setTheme(t, save) {
+    document.documentElement.dataset.theme = t;
+    if (save) { try { localStorage.setItem('ccsd3-theme', t); } catch (e) {} }
+    this.setState({ theme: t });
+  }
+  swapAssets() {
+    const anim = !!this.props.animatedAssets && !this.reduced;
+    document.querySelectorAll('img[data-gif]').forEach(img => {
+      if (!img.dataset.png) img.dataset.png = img.getAttribute('src');
+      const next = anim ? img.dataset.gif : img.dataset.png;
+      if (img.getAttribute('src') !== next) img.setAttribute('src', next);
+    });
+  }
+  setupMotion() {
+    if (this.reduced) return;
+    const A = this.anims = [];
+    const loop = (el, kf, dur, delay) => A.push(el.animate(kf, { duration: dur, delay: delay || 0, direction: 'alternate', iterations: Infinity, easing: 'ease-in-out' }));
+    document.querySelectorAll('[data-float]').forEach(el => {
+      const slow = el.dataset.float === 'slow';
+      loop(el, [{ transform: 'translateY(0)' }, { transform: `translateY(${slow ? -8 : -14}px)` }], slow ? 9000 : 7000);
+    });
+    document.querySelectorAll('[data-bob]').forEach((el, i) => {
+      const a = +el.dataset.bob, dx = (i % 3 - 1) * a * 0.6;
+      loop(el, [{ transform: 'translate(0,0)' }, { transform: `translate(${dx}px,${-a}px)` }], 5200 + i * 700, -i * 900);
+    });
+    document.querySelectorAll('[data-flower]').forEach((fl, fi) => {
+      const base = 6400 + fi * 500, off = -fi * 1600;
+      fl.querySelectorAll('[data-petal]').forEach(p => {
+        const k = +p.dataset.petal, tw = (k % 2 ? 1 : -1) * 2.2;
+        loop(p, [{ transform: 'scale(1) rotate(0deg)' }, { transform: `scale(1.075) rotate(${tw}deg)` }], base, off - k * 140);
+      });
+      const st = fl.querySelector('[data-stamen]');
+      if (st) loop(st, [{ transform: 'scale(1) rotate(0deg)' }, { transform: 'scale(1.06) rotate(4deg)' }], base, off + 300);
+    });
+    if (!document.getElementById('ccs-ripple')) {
+      document.body.insertAdjacentHTML('beforeend', '<svg id="ccs-ripple" width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ccsRipple" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="9s" values="0.012 0.030;0.017 0.022;0.012 0.030" repeatCount="indefinite"></animate></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap></filter></svg>');
+    }
+    document.querySelectorAll('[data-ripple]').forEach(el => { el.style.filter = 'url(#ccsRipple)'; });
+    document.querySelectorAll('[data-breathe]').forEach(el => {
+      loop(el, [{ opacity: .6, transform: 'scale(1)' }, { opacity: 1, transform: 'scale(1.06)' }], el.dataset.breathe === 'slow' ? 11000 : 7500);
+    });
+    document.querySelectorAll('[data-drift]').forEach(el => {
+      const wave = el.dataset.drift === 'wave';
+      const a = wave ? 3.5 : 2.5;
+      loop(el, [{ transform: `translateX(-${a}%)` }, { transform: `translateX(${a}%)` }], wave ? 16000 : 26000);
+    });
+    document.querySelectorAll('[data-pixel]').forEach((el, i) => {
+      const dx = (i % 2 ? 1 : -1) * (6 + i * 2), dy = -(10 + i * 3);
+      loop(el, [{ transform: 'translate(0,0)', opacity: .9 }, { transform: `translate(${dx}px,${dy}px)`, opacity: .35 }], 6000 + i * 1300, i * 400);
+    });
+    const vh = window.innerHeight;
+    const pending = new Map();
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      if (el.getBoundingClientRect().top < vh * 0.92) return;
+      const a = el.animate([{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }], { duration: 900, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'both' });
+      a.pause(); pending.set(el, a);
+    });
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting && pending.has(e.target)) { pending.get(e.target).play(); pending.delete(e.target); this.io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    pending.forEach((a, el) => this.io.observe(el));
+  }
+
+  renderVals() {
+    const { theme, scrolled, menuOpen, narrow } = this.state;
+    const regOpen = false;
+    const regLive = this.props.registerOpen ?? true, absLive = this.props.abstractOpen ?? true, posLive = this.props.posterOpen ?? true;
+    const live = { Registration: regLive, 'Abstract Submission': absLive, 'Poster Submission': posLive };
+    const isDark = theme === 'dark';
+    const nav = [['Home','#home'],['About','#about'],['D³ Themes','#themes'],['Program','#program'],['7+11','#pitch'],['Poster','#poster'],['Speakers','#speakers'],['Registration','#registration'],['Access','#access']];
+    const navItems = nav.map(([label, href]) => ({ label, href }));
+    const navItemsMobile = [...nav, ['Contact', '#contact']].map(([label, href], i) => ({ label, href, num: String(i + 1).padStart(2, '0') }));
+    const C = { m: '#F2299B', v: '#6B35E8', b: '#176BFF', c: '#18DDF2', p: '#F26AA2' };
+    return {
+      navBg: scrolled || menuOpen ? 'var(--navbg)' : 'transparent',
+      navBorder: scrolled ? 'var(--line)' : 'transparent',
+      navPad: scrolled ? '10px' : '18px',
+      deskNav: narrow ? 'none' : 'flex',
+      burger: narrow ? 'flex' : 'none',
+      toolsMargin: narrow ? 'auto' : '8px',
+      showMobileMenu: narrow && menuOpen,
+      menuOpenStr: menuOpen ? 'true' : 'false',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      isDark, isLight: !isDark,
+      themeLabel: isDark ? 'Switch to light mode' : 'Switch to dark mode',
+      toggleTheme: () => this.setTheme(isDark ? 'light' : 'dark', true),
+      regOpen, regClosed: !regOpen, regLive, regOff: !regLive, posLive, posOff: !posLive,
+      navItems, navItemsMobile,
+      questions: ['What can we predict?','What can we conclude?','What remains uncertain?','What should we calculate or test next?','Who should we collaborate with?'].map((text, i) => ({ text, n: String(i + 1).padStart(2, '0') })),
+      d3: [
+        { word: 'DATA', body: 'Scientific data, AI, machine learning, LLMs, knowledge integration and predictive models.' },
+        { word: 'DYNAMICS', body: 'Molecules, biomolecular motion, molecular recognition, reaction processes and biological systems.' },
+        { word: 'DESIGN', body: 'Turning scientific understanding into new hypotheses, predictive models, molecules, experiments and the next research question.' }
+      ],
+      themes: [
+        { n: '01', short: 'DATA', title: 'Data & Intelligence', img: 'assets/orb-data-intelligence.png', alt: 'Network and data orb', tags: ['AI','Machine Learning','LLM','Scientific Data','Knowledge Integration','Knowledge Graphs','Predictive Models'] },
+        { n: '02', short: 'MD', title: 'Molecular Dynamics', img: 'assets/orb-molecular-dynamics.png', alt: 'Dynamic mesh surface orb', tags: ['Molecular Simulation','Biomolecular Dynamics','Molecular Recognition','Conformational Dynamics','Molecular Mechanisms','Drug Discovery'] },
+        { n: '03', short: 'QM', title: 'Quantum & Chemistry', img: 'assets/orb-quantum-chemistry.png', alt: 'Chemical structure over an energy surface orb', tags: ['Quantum Chemistry','QM/MM','FMO','Electronic Structure','Reaction Mechanisms','Molecular Processes'] },
+        { n: '04', short: 'LIFE', title: 'Life & Predictive Science', img: 'assets/orb-life-predictive.png', alt: 'Molecular and biological network orb', tags: ['Molecular Biology','Structural Biology','Biochemistry','Virology','Biological Networks','Experiment–Computation Integration'] }
+      ],
+      areas: [['DATA',C.b],['MOLECULAR SCIENCE',C.v],['QUANTUM',C.c],['BIOLOGY',C.p],['AI',C.m],['EXPERIMENT','#FFFFFF']].map(([label, color]) => ({ label, color })),
+      days: [
+        { day: 'DAY 00', date: 'MARCH 4', title: 'ARRIVE & CONNECT', question: 'Who is here — and what are they working on?',
+          blocks: [{ label: '16:00–17:00 — Registration & Welcome', items: ['Registration','Welcome desk','Badge / program collection','Informal participant check-in','Initial networking'] }] },
+        { day: 'DAY 01', date: 'MARCH 5', title: 'PREDICT & CONNECT', question: 'What are we working on — and who should we talk to?',
+          blocks: [{ label: 'Morning', items: ['Featured Speaker 01','Research Mentor Talks'] }, { label: 'Afternoon', items: ['Research Mentor Talks','D³ Flash — 3-minute poster introductions','Poster Session & Open Networking'] }, { label: 'Evening', items: ['Networking Party / Research Exchange'] }] },
+        { day: 'DAY 02', date: 'MARCH 6', title: 'DISCUSS & DESIGN', question: 'What should we do next — and who should we do it with?',
+          blocks: [{ label: 'Morning', items: ['Featured Speaker 02', { label: '7+11 Research Pitch', sub: [{ n: '7', label: 'PITCH', color: '#F26AA2' }, { n: '11', label: 'DISCUSS', color: '#18DDF2' }] }] }, { label: 'Afternoon', items: ['Research Mentor Talks','Cross-disciplinary Discussion','Next Calculation / Next Experiment','Awards','Closing'] }] }
+      ].map(d => ({ ...d, blocks: d.blocks.map(b => ({ ...b, items: b.items.map(it => typeof it === 'string' ? { label: it, hasSub: false, sub: [] } : { ...it, hasSub: true }) })) })),
+      formats: [
+        { n: 'FORMAT 01', num: '25', unit: 'MIN × 2', title: 'Featured Speakers', body: 'Major scientific perspectives designed to frame important questions and stimulate discussion.', color: C.m, bg: 'var(--bg)', fg: 'var(--ink)' },
+        { n: 'FORMAT 02', num: '12', unit: 'MIN', title: 'Research Mentors', body: 'Focused expert perspectives connecting scientific methods, research questions and future directions.', color: C.v, bg: 'var(--bg)', fg: 'var(--ink)' },
+        { n: 'FORMAT 03', num: '7+11', unit: 'MIN', title: '7+11 Research Pitch', body: '7 min pitch + 11 min multidisciplinary discussion. For selected students and young researchers.', color: C.c, bg: 'var(--card)', fg: '#FFFFFF' },
+        { n: 'FORMAT 04', num: '3', unit: 'MIN', title: 'D³ Flash', body: 'Every accepted poster presenter gets a short stage introduction before the poster discussion.', color: C.b, bg: 'var(--bg)', fg: 'var(--ink)', flash: true }
+      ].map(f => ({ ...f, numImg: !!f.flash, numText: !f.flash })),
+      flow711: ['PITCH','DISCUSS','CONNECT','DESIGN'].map((label, i, a) => ({ label, arrow: i < a.length - 1 ? 'inline' : 'none' })),
+      flashFlow: ['3-minute introduction','Poster discussion','Scientific connection'].map((label, i) => ({ label, n: String(i + 1).padStart(2, '0') })),
+      openTo: ['Students','Young researchers','External participants','Experimental scientists','Computational scientists'],
+      topics: ['Data Science','AI / ML / LLM','Molecular Simulation','Molecular Dynamics','Quantum Chemistry','QM/MM','FMO','Molecular Recognition','Structural Biology','Molecular Biology','Drug Discovery','Predictive Modeling','Experiment–Computation Integration'],
+      speakerGroups: [
+        { title: 'Featured Speakers', people: [1, 2].map(() => ({ role: 'FEATURED SPEAKER', name: 'To be announced', institution: 'Institution TBA', country: 'Country TBA', talk: 'Talk title TBA' })) },
+        { title: 'Research Mentors', people: [1, 2, 3, 4].map(() => ({ role: 'RESEARCH MENTOR', name: 'To be announced', institution: 'Institution TBA', country: 'Country TBA', talk: 'Talk title TBA' })) }
+      ],
+      joiners: ['JST Sakura Science Participants','QiLS Researchers','University of Tsukuba Students','Graduate Students','Young Researchers','External Researchers','Experimental Scientists','Computational Scientists','Data / AI Researchers','Industry / Research Collaborators'].map((label, i) => ({ label, color: [C.m, C.v, C.b, C.c][i % 4] })),
+      regCards: [
+        { title: 'General Participant', body: 'Attend the forum: talks, 7+11 discussions, D³ Flash and poster sessions.', key: 'Registration', cta: 'REGISTER', href: 'https://forms.gle/txqceo1xTGWPHUbp6', color: C.b, day: '31', month: 'December', year: '2026' },
+        { title: 'Abstract Submission', body: 'Submit your research abstract for the forum program.', key: 'Abstract Submission', cta: 'SUBMIT ABSTRACT', href: 'https://forms.gle/cstJj81owSbWs6DV9', color: C.v, day: '15', month: 'January', year: '2027' },
+        { title: 'Poster Submission', body: 'Present a poster, with a 3-minute D³ Flash introduction on stage.', key: 'Poster Submission', cta: 'SUBMIT POSTER', href: 'https://forms.gle/NNfYRr1a5zFwvhPSA', color: C.m, day: '15', month: 'February', year: '2027' }
+      ].map(r => { const open = !!live[r.key]; return { ...r, open, closed: !open, status: open ? 'OPEN' : 'CLOSED', statusColor: open ? '#18DDF2' : '#9EA6CC' }; }),
+      statuses: [['Participation Fee','TBA']].map(([label, value]) => ({ label, value, color: '#FFFFFF' }))
+    };
+  }
+}
+</script>
+</body>
+</html>
