@@ -1,4 +1,3 @@
-```markdown
 # CCS-D³ Bridge 2027 × QiLS
 
 **Predictive Molecular Science Forum**  
@@ -121,4 +120,3 @@ Center for Computational Sciences
 University of Tsukuba, Japan
 
 Email: `kowith@ccs.tsukuba.ac.jp`
-```
