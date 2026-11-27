@@ -457,7 +457,7 @@ img{max-width:100%;display:block}
       <sc-for list="{{ regCards }}" as="r" hint-placeholder-count="3">
         <article data-reveal="" style="display:flex;flex-direction:column;gap:18px;padding:30px 28px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);transition:border-color .3s,box-shadow .3s" style-hover="border-color:rgba(24,221,242,.6);box-shadow:0 0 40px -10px rgba(24,221,242,.4)">
           <span style="width:36px;height:4px;border-radius:2px;background:{{ r.color }}"></span>
-          <h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(22px,2vw,26px);letter-spacing:-.01em;line-height:1.05">{{ r.title }}</h3>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><h3 style="margin:0;font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(22px,2vw,26px);letter-spacing:-.01em;line-height:1.05">{{ r.title }}</h3><span style="padding:6px 12px;border-radius:999px;background:linear-gradient(90deg,#F2299B,#6B35E8);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11.5px;letter-spacing:.14em">FREE</span></div>
           <p style="margin:0;font-size:15.5px;line-height:1.55;color:#C8CDE6;flex:1">{{ r.body }}</p>
           <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:18px 0 6px;border-top:1px solid rgba(255,255,255,.14)">
             <div style="display:flex;flex-direction:column;gap:6px">
@@ -735,7 +735,7 @@ class Component extends DCLogic {
       ],
       joiners: ['JST Sakura Science Participants','QiLS Researchers','University of Tsukuba Students','Graduate Students','Young Researchers','External Researchers','Experimental Scientists','Computational Scientists','Data / AI Researchers','Industry / Research Collaborators'].map((label, i) => ({ label, color: [C.m, C.v, C.b, C.c][i % 4] })),
       regCards: [
-        { title: 'General Participant', body: 'Free registration. Attend the forum: talks, 7+11 discussions, D³ Flash and poster sessions.', key: 'Registration', cta: 'REGISTER', href: 'https://forms.gle/txqceo1xTGWPHUbp6', color: C.b, day: '31', month: 'December', year: '2026' },
+        { title: 'General Participant', body: 'No registration fee. Attend the forum: talks, 7+11 discussions, D³ Flash and poster sessions.', key: 'Registration', cta: 'REGISTER', href: 'https://forms.gle/txqceo1xTGWPHUbp6', color: C.b, day: '31', month: 'December', year: '2026' },
         { title: 'Abstract Submission', body: 'Submit your research abstract for the forum program.', key: 'Abstract Submission', cta: 'SUBMIT ABSTRACT', href: 'https://forms.gle/cstJj81owSbWs6DV9', color: C.v, day: '15', month: 'January', year: '2027' },
         { title: 'Poster Submission', body: 'Present a poster, with a 3-minute D³ Flash introduction on stage.', key: 'Poster Submission', cta: 'SUBMIT POSTER', href: 'https://forms.gle/NNfYRr1a5zFwvhPSA', color: C.m, day: '15', month: 'February', year: '2027' }
       ].map(r => { const open = !!live[r.key]; return { ...r, open, closed: !open, status: open ? 'OPEN' : 'CLOSED', statusColor: open ? '#18DDF2' : '#9EA6CC' }; }),
